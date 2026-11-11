@@ -5,6 +5,7 @@ public class angularVelocityTest : MonoBehaviour
 {
     public Rigidbody2D rb;
     public float spinSpeed;
+    public float slowDownSpeed;
     void Start()
     {
         
@@ -21,14 +22,17 @@ public class angularVelocityTest : MonoBehaviour
         if (Keyboard.current.aKey.isPressed)
         {
             rb.angularVelocity = spinSpeed;
+
+           
         }
         else if (Keyboard.current.dKey.isPressed)
         {
             rb.angularVelocity = spinSpeed * -1;
+            
         }
         else
         {
-            rb.angularVelocity = 0;
+            rb.angularDamping = slowDownSpeed;
         }
         
 

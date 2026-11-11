@@ -836,6 +836,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::angularVelocityTest
   rb: {fileID: 1758728194}
   spinSpeed: 40
+  slowDownSpeed: 10
 --- !u!60 &1758728193
 PolygonCollider2D:
   m_ObjectHideFlags: 0
