@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     public float timeToMaxSpeed;
     float acceleration;
 
+    public PlayerVisuals visualsScript;
     public enum FacingDirection
     {
         left, right
@@ -26,7 +27,6 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         //The input from the player needs to be determined and then passed in the to the MovementUpdate which should
         //manage the actual movement of the character.
         Vector2 playerInput = new Vector2();
@@ -34,12 +34,22 @@ public class PlayerController : MonoBehaviour
         if (Keyboard.current.dKey.isPressed)
         {
             playerInput.x += 1f;
+            visualsScript.playerIsWalking = true;
+
+            visualsScript.bodyRenderer.flipX = false;
+
         }
-        if (Keyboard.current.aKey.isPressed)
+        else if (Keyboard.current.aKey.isPressed)
         {
             playerInput.x -= 1f;
-        }
+            visualsScript.playerIsWalking = true;
 
+            visualsScript.bodyRenderer.flipX = true;
+        }
+        else
+        {
+            visualsScript.playerIsWalking = false;
+        }
         MovementUpdate(playerInput);
     }
 
@@ -69,6 +79,11 @@ public class PlayerController : MonoBehaviour
 
     public FacingDirection GetFacingDirection()
     {
-        return FacingDirection.left;
+       
+            return FacingDirection.right;
+      
+
+       
+
     }
 }

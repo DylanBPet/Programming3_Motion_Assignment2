@@ -14,6 +14,12 @@ public class PlayerVisuals : MonoBehaviour
 
     private int isWalkingHash, isGroundedHash;
 
+   
+
+    public bool touchingGround;
+
+    public bool playerIsWalking;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,22 +31,46 @@ public class PlayerVisuals : MonoBehaviour
     void Update()
     {
         VisualsUpdate();
+
     }
 
     //It is not recommended to make changes to the functionality of this code for the W10 journal.
     private void VisualsUpdate()
     {
-        animator.SetBool(isWalkingHash, playerController.IsWalking());
-        animator.SetBool(isGroundedHash, playerController.IsGrounded());
-        switch (playerController.GetFacingDirection())
+        if (playerIsWalking)
         {
-            case PlayerController.FacingDirection.left:
-                bodyRenderer.flipX = true;
-                break;
-            case PlayerController.FacingDirection.right:
-            default:
-                bodyRenderer.flipX = false;
-                break;
+            Debug.Log("playerIsWalking");
+            animator.SetBool(isWalkingHash, true);
         }
+        else
+        {
+            animator.SetBool(isWalkingHash, false);
+        }
+            
+
+
+        if (touchingGround)
+        {
+            animator.SetBool(isGroundedHash, playerController.IsGrounded());
+        }
+        else
+        {
+            animator.SetBool(isGroundedHash, false);
+        }
+
+        /*
+            switch (playerController.GetFacingDirection())
+            {
+                case PlayerController.FacingDirection.left:
+                    bodyRenderer.flipX = true;
+                    break;
+                case PlayerController.FacingDirection.right:
+                default:
+                    bodyRenderer.flipX = false;
+                    break;
+            }
+        */
     }
+
+    
 }
