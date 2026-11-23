@@ -10,8 +10,23 @@ public class PlayerController : MonoBehaviour
     public float maxSpeed;
     public float timeToMaxSpeed;
     float acceleration;
-
     public PlayerVisuals visualsScript;
+
+    public float maxHeight;
+    public float maxAirTime;
+
+    float gravity;
+    float initialJumpVelocity;
+
+    public GameObject playerVisuals;
+
+    bool jumpTrigger;
+
+    public float timetoDecelerate;
+    float deceleration;
+
+    bool playerMovingRight = false;
+    bool playerMovingLeft = false;
     public enum FacingDirection
     {
         left, right
@@ -21,7 +36,16 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        //acceleration
         acceleration = maxSpeed / timeToMaxSpeed;
+
+        //deceleration
+        deceleration = maxSpeed / timetoDecelerate;
+
+        //jumping equations
+        gravity = -2 * maxHeight / (maxAirTime * maxAirTime);
+        initialJumpVelocity = 2 * maxHeight / maxAirTime;
     }
 
     // Update is called once per frame
@@ -29,43 +53,94 @@ public class PlayerController : MonoBehaviour
     {
         //The input from the player needs to be determined and then passed in the to the MovementUpdate which should
         //manage the actual movement of the character.
-        Vector2 playerInput = new Vector2();
+        
 
         if (Keyboard.current.dKey.isPressed)
         {
-            playerInput.x += 1f;
+            playerMovingRight = true;
+            //playerInput.x += 1f;
+            
+            //visual Script Handler
             visualsScript.playerIsWalking = true;
-
             visualsScript.bodyRenderer.flipX = false;
-
         }
-        else if (Keyboard.current.aKey.isPressed)
+        else if(Keyboard.current.dKey.wasReleasedThisFrame)
         {
-            playerInput.x -= 1f;
-            visualsScript.playerIsWalking = true;
+            playerMovingRight = false;
+        }
 
+        if (Keyboard.current.aKey.isPressed)
+        {
+            playerMovingLeft = true;
+            //playerInput.x -= 1f;
+
+            //visual Script Handler
+            visualsScript.playerIsWalking = true;
             visualsScript.bodyRenderer.flipX = true;
         }
-        else
+        else if(Keyboard.current.aKey.wasReleasedThisFrame)
         {
-            visualsScript.playerIsWalking = false;
+            playerMovingLeft = false;
         }
+
+        if (Keyboard.current.spaceKey.wasPressedThisFrame && visualsScript.touchingGround == true)
+        {
+            jumpTrigger = true;
+        }
+    }
+
+    void FixedUpdate()
+    {
+        Vector2 playerInput = new Vector2();
         MovementUpdate(playerInput);
     }
 
     private void MovementUpdate(Vector2 playerInput)
     {
         Vector2 newVelocity = rb.linearVelocity;
-        if (playerInput.x != 0)
+
+        //applying gravity
+        newVelocity.y += gravity * Time.deltaTime;
+        
+
+        if (playerMovingRight == true)
         {
+            playerInput.x = 1;
             //accelerate
             newVelocity += playerInput * acceleration * Time.deltaTime;
+            
+            newVelocity.x = Mathf.Clamp(newVelocity.x, -maxSpeed, maxSpeed);
+        }
+        else if(playerMovingLeft == true)
+        {
+            playerInput.x = -1;
+            //newVelocity
+            //accelerate
+            newVelocity += playerInput * acceleration * Time.deltaTime;
+
+            newVelocity.x = Mathf.Clamp(newVelocity.x, -maxSpeed, maxSpeed);
         }
         else
         {
-            //????
+            //decelerate
+
+            //this works when x is positive, not when x is negative
+            newVelocity.x -= Mathf.Sign(newVelocity.x) * deceleration * Time.deltaTime;
+           if (newVelocity.x < 0.8f && newVelocity.x > -0.8f)
+            {
+                newVelocity.x = 0;
+            }
         }
+
+        if (jumpTrigger == true)
+        {
+            newVelocity.y = initialJumpVelocity;
+            jumpTrigger = false;
+        }
+        
+
         rb.linearVelocity = newVelocity;
+
     }
 
     public bool IsWalking()

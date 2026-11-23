@@ -1559,7 +1559,7 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 0
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 9c791b9232f1295479644629318a0139, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1709,9 +1709,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86a1ce42ea3e3dd44868493ae73ec06d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 10
-  timeToMaxSpeed: 0.5
+  maxSpeed: 5.5
+  timeToMaxSpeed: 0.2
   visualsScript: {fileID: 1433354316}
+  maxHeight: 3.3
+  maxAirTime: 0.6
+  playerVisuals: {fileID: 1598075209}
+  timetoDecelerate: 0.2
 --- !u!4 &1433354315
 Transform:
   m_ObjectHideFlags: 0
@@ -1760,7 +1764,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -1896,7 +1900,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.78935194, y: 0.11315596}
+  m_Size: {x: 0.74, y: 0.11315596}
   m_EdgeRadius: 0
 --- !u!114 &1598075212
 MonoBehaviour:
