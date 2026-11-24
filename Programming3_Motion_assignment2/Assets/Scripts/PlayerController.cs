@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
     public float maxSpeed;
     public float timeToMaxSpeed;
     float acceleration;
+
+    //scripts
     public PlayerVisuals visualsScript;
 
     public float maxHeight;
@@ -27,6 +29,10 @@ public class PlayerController : MonoBehaviour
 
     bool playerMovingRight = false;
     bool playerMovingLeft = false;
+
+    
+
+    public float terminalVelocity;
     public enum FacingDirection
     {
         left, right
@@ -86,6 +92,7 @@ public class PlayerController : MonoBehaviour
         if (Keyboard.current.spaceKey.wasPressedThisFrame && visualsScript.touchingGround == true)
         {
             jumpTrigger = true;
+            visualsScript.touchingGround = false;
         }
     }
 
@@ -101,7 +108,8 @@ public class PlayerController : MonoBehaviour
 
         //applying gravity
         newVelocity.y += gravity * Time.deltaTime;
-        
+
+        newVelocity.y = Mathf.Clamp(newVelocity.y, -terminalVelocity, terminalVelocity);
 
         if (playerMovingRight == true)
         {
@@ -137,11 +145,14 @@ public class PlayerController : MonoBehaviour
             newVelocity.y = initialJumpVelocity;
             jumpTrigger = false;
         }
+
         
 
         rb.linearVelocity = newVelocity;
 
     }
+
+   
 
     public bool IsWalking()
     {
@@ -161,4 +172,5 @@ public class PlayerController : MonoBehaviour
        
 
     }
+
 }

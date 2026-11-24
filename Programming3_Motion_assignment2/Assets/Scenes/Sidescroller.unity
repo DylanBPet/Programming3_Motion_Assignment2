@@ -1716,6 +1716,7 @@ MonoBehaviour:
   maxAirTime: 0.6
   playerVisuals: {fileID: 1598075209}
   timetoDecelerate: 0.2
+  terminalVelocity: 11
 --- !u!4 &1433354315
 Transform:
   m_ObjectHideFlags: 0
@@ -1914,8 +1915,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4218bda6277676e49beee8c18865e528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CheckIfOnGround
-  controllerScript: {fileID: 1433354316}
+  visualsScript: {fileID: 1433354316}
   feetBoxCollider: {fileID: 1598075211}
+  controllerScript: {fileID: 1433354314}
+  coyoteTime: 0.2
 --- !u!1 &2077868377
 GameObject:
   m_ObjectHideFlags: 0

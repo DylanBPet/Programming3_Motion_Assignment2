@@ -39,7 +39,6 @@ public class PlayerVisuals : MonoBehaviour
     {
         if (playerIsWalking)
         {
-            Debug.Log("playerIsWalking");
             animator.SetBool(isWalkingHash, true);
         }
         else
@@ -52,6 +51,7 @@ public class PlayerVisuals : MonoBehaviour
         if (touchingGround)
         {
             animator.SetBool(isGroundedHash, playerController.IsGrounded());
+            
         }
         else
         {
